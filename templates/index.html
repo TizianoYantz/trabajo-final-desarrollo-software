@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inventario</title>
+</head>
+<body>
+
+<h1>Inventario</h1>
+
+<input type="text" id="nombre" placeholder="Nombre del producto">
+<input type="number" id="cantidad" placeholder="Cantidad">
+<button onclick="agregarProducto()">Agregar</button>
+
+<h2>Lista de productos</h2>
+<ul id="lista"></ul>
+
+<script>
+async function cargarProductos() {
+    const res = await fetch('/productos');
+    const productos = await res.json();
+
+    const lista = document.getElementById('lista');
+    lista.innerHTML = "";
+
+    productos.forEach(p => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+            ${p.nombre} - ${p.cantidad}
+            <button onclick="eliminarProducto(${p.id})">Eliminar</button>
+        `;
+        lista.appendChild(li);
+    });
+}
+
+async function agregarProducto() {
+    const nombre = document.getElementById('nombre').value;
+    const cantidad = document.getElementById('cantidad').value;
+
+    await fetch('/productos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre, cantidad })
+    });
+
+    cargarProductos();
+}
+
+async function eliminarProducto(id) {
+    await fetch(`/productos/${id}`, {
+        method: 'DELETE'
+    });
+
+    cargarProductos();
+}
+
+cargarProductos();
+</script>
+
+</body>
+</html>
