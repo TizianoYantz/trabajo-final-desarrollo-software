@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ventas</title>
+</head>
+
+<body>
+
+    <h1>Ventas</h1>
+
+    <a href="/">Volver al inicio</a>
+
+    <hr>
+
+    <h2>Registrar venta</h2>
+
+    <form method="POST" action="/registrar-venta">
+
+        <label>ID Producto:</label>
+        <input type="number" name="id_producto" required>
+
+        <br><br>
+
+        <label>Cantidad:</label>
+        <input type="number" name="cantidad" required>
+
+        <br><br>
+
+        <button type="submit">
+            Registrar Venta
+        </button>
+
+    </form>
+
+    <hr>
+
+    <h2>Historial de Ventas</h2>
+
+    <table border="1">
+
+        <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Fecha</th>
+        </tr>
+
+        {% for venta in ventas %}
+        <tr>
+            <td>{{ venta.obtener_producto().obtener_nombre() }}</td>
+            <td>{{ venta.obtener_cantidad() }}</td>
+            <td>{{ venta.obtener_fecha().strftime("%d/%m/%Y %H:%M") }}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+</body>
+
+</html>

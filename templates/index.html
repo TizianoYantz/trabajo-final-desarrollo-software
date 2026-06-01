@@ -1,186 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>Inventario</title>
-
-    <style>
-        body {
-            font-family: Arial;
-            max-width: 600px;
-            margin: auto;
-            background: #f4f6f8;
-        }
-
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-
-        input {
-            padding: 8px;
-            margin: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        button {
-            padding: 8px 12px;
-            margin: 5px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            color: white;
-        }
-
-        /* Botones */
-        .btn-agregar {
-            background: #28a745;
-        }
-
-        .btn-editar {
-            background: #007bff;
-        }
-
-        .btn-eliminar {
-            background: #dc3545;
-        }
-
-        .btn-guardar {
-            background: #ffc107;
-            color: black;
-        }
-
-        button:hover {
-            opacity: 0.85;
-        }
-
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        li {
-            background: white;
-            margin: 10px 0;
-            padding: 10px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .producto {
-            flex: 1;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <title>Sistema de Inventario</title>
 </head>
-
 <body>
 
-<h1>Inventario</h1>
+    <h1>Sistema de Gestión de Inventario</h1>
 
-<input type="text" id="nombre" placeholder="Nombre del producto">
-<input type="number" id="cantidad" placeholder="Cantidad">
-<button class="btn-agregar" onclick="agregarProducto()">Agregar</button>
+    <a href="/inventario">
+        <button>Inventario</button>
+    </a>
 
-<h2>Lista de productos</h2>
-<ul id="lista"></ul>
-
-<script>
-let editandoId = null;
-
-async function cargarProductos() {
-    const res = await fetch('/productos');
-    const productos = await res.json();
-
-    const lista = document.getElementById('lista');
-    lista.innerHTML = "";
-
-    productos.forEach(p => {
-        const li = document.createElement('li');
-
-        if (editandoId === p.id) {
-            li.innerHTML = `
-                <input id="nombre-${p.id}" value="${p.nombre}">
-                <input type="number" id="cantidad-${p.id}" value="${p.cantidad}">
-                <button class="btn-guardar" onclick="guardarCambios(${p.id})">Guardar</button>
-            `;
-        } else {
-            li.innerHTML = `
-                <span class="producto">${p.nombre} - ${p.cantidad}</span>
-                <div>
-                    <button class="btn-editar" onclick="activarEdicion(${p.id})">Editar</button>
-                    <button class="btn-eliminar" onclick="eliminarProducto(${p.id})">Eliminar</button>
-                </div>
-            `;
-        }
-
-        lista.appendChild(li);
-    });
-}
-
-function activarEdicion(id) {
-    editandoId = id;
-    cargarProductos();
-}
-
-async function guardarCambios(id) {
-    const nombre = document.getElementById(`nombre-${id}`).value.trim();
-    const cantidad = parseInt(document.getElementById(`cantidad-${id}`).value);
-
-    if (!nombre) {
-        alert("El nombre no puede estar vacío");
-        return;
-    }
-
-    if (isNaN(cantidad) || cantidad < 0) {
-        alert("Cantidad inválida");
-        return;
-    }
-
-    await fetch(`/productos/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nombre, cantidad })
-    });
-
-    editandoId = null;
-    cargarProductos();
-}
-
-async function agregarProducto() {
-    const nombre = document.getElementById('nombre').value.trim();
-    const cantidad = parseInt(document.getElementById('cantidad').value);
-
-    if (!nombre) {
-        alert("El nombre no puede estar vacío");
-        return;
-    }
-
-    if (isNaN(cantidad) || cantidad < 0) {
-        alert("Cantidad inválida");
-        return;
-    }
-
-    await fetch('/productos', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nombre, cantidad })
-    });
-
-    cargarProductos();
-}
-
-async function eliminarProducto(id) {
-    await fetch(`/productos/${id}`, {
-        method: 'DELETE'
-    });
-
-    cargarProductos();
-}
-
-cargarProductos();
-</script>
+    <a href="/ventas">
+        <button>Ventas</button>
+    </a>
 
 </body>
 </html>
