@@ -50,6 +50,7 @@
             <th>Nombre</th>
             <th>Stock</th>
             <th>Stock Mínimo</th>
+            <th>Acciones</th>
         </tr>
 
         {% for producto in productos %}
@@ -58,6 +59,15 @@
             <td>{{ producto.obtener_nombre() }}</td>
             <td>{{ producto.obtener_cantidad() }}</td>
             <td>{{ producto.obtener_stock_minimo() }}</td>
+
+            <td>
+                <a href="/editar-producto/{{ producto.obtener_id() }}">
+                    <button type="button">
+                        Editar
+                    </button>
+                </a>
+            </td>
+
         </tr>
         {% endfor %}
 

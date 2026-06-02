@@ -41,6 +41,33 @@ def agregar_producto_html():
 
     return redirect("/inventario")
 
+@app.route("/editar-producto/<int:id_producto>")
+def editar_producto(id_producto):
+
+    producto = inventario.buscar_producto(id_producto)
+
+    if producto is None:
+        return "Producto no encontrado", 404
+
+    return render_template(
+        "editar_producto.html",
+        producto=producto
+    )
+
+@app.route("/guardar-producto/<int:id_producto>", methods=["POST"])
+def guardar_producto(id_producto):
+
+    nombre = request.form["nombre"]
+    cantidad = int(request.form["cantidad"])
+
+    inventario.actualizar_producto(
+        id_producto,
+        nuevo_nombre=nombre,
+        nueva_cantidad=cantidad
+    )
+
+    return redirect("/inventario")
+
 
 @app.route("/ventas")
 def pagina_ventas():
