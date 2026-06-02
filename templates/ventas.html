@@ -13,7 +13,10 @@
 
     <h1 class="titulo">Ventas</h1>
 
-    <a href="/">← Volver al inicio</a>
+    <!-- 🏠 BOTÓN HOME (IGUAL A INVENTARIO) -->
+    <a href="/" class="home-link">
+        🏠
+    </a>
 
     <div class="contenedor-inventario">
 
@@ -52,30 +55,20 @@
                 {{ error }}
             </p>
             {% endif %}
-            
+
             <form method="POST" action="/registrar-venta">
 
                 <label>ID Producto</label>
-
                 <br>
 
-                <input
-                    type="number"
-                    name="id_producto"
-                    required
-                >
+                <input type="number" name="id_producto" required>
 
                 <br><br>
 
                 <label>Cantidad</label>
-
                 <br>
 
-                <input
-                    type="number"
-                    name="cantidad"
-                    required
-                >
+                <input type="number" name="cantidad" required>
 
                 <br><br>
 

@@ -185,3 +185,9 @@ h1 {
     height: 100vh;
     margin: 0;
 }
+
+.home-link {
+    font-size: 28px;
+    text-decoration: none;
+    color: black;
+}
