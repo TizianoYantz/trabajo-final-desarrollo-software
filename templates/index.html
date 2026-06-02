@@ -7,6 +7,8 @@
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
+          
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -15,17 +17,43 @@
 
     <div class="menu">
 
-        <a href="/inventario">
-            <button class="boton">
-                 Inventario
-            </button>
-        </a>
+        <!-- INVENTARIO -->
+        <div class="opcion">
 
-        <a href="/ventas">
-            <button class="boton">
-                 Ventas
-            </button>
-        </a>
+            <a href="/inventario">
+                <button class="boton">
+                    📦 Inventario
+                </button>
+            </a>
+
+            <br><br>
+
+            <img
+                src="{{ url_for('static', filename='img/inventario.png') }}"
+                alt="Inventario"
+                class="imagen-menu"
+            >
+
+        </div>
+
+        <!-- VENTAS -->
+        <div class="opcion">
+
+            <a href="/ventas">
+                <button class="boton">
+                    💰 Ventas
+                </button>
+            </a>
+
+            <br><br>
+
+            <img
+                src="{{ url_for('static', filename='img/ventas.png') }}"
+                alt="Ventas"
+                class="imagen-menu"
+            >
+
+        </div>
 
     </div>
 

@@ -5,7 +5,7 @@ body {
     flex-direction: column;
     align-items: center;
     background-color: #f5f5f5;
-    font-family: Arial, sans-serif;
+    font-family: 'Dancing Script', sans-serif;
 }
 
 h1 {
@@ -28,7 +28,7 @@ h1 {
     border: none;
     border-radius: 15px;
     cursor: pointer;
-    background-color: #08beaf;
+    background-color: #000000;
     color: white;
     transition: 0.3s;
 }
@@ -108,4 +108,36 @@ h1 {
     border-radius: 10px;
 
     margin: 150px auto;
+}
+
+body {
+    text-align: center;
+}
+
+h1 {
+    font-size: 50px;
+    margin-top: 30px;
+}
+
+.menu {
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+    margin-top: 50px;
+}
+
+.opcion {
+    text-align: center;
+}
+
+.boton {
+    padding: 15px 40px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.imagen-menu {
+    width: 150px;
+    height: auto;
+    border-radius: 10px;
 }
