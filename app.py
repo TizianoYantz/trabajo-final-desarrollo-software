@@ -69,6 +69,12 @@ def guardar_producto(id_producto):
 
     return redirect("/inventario")
 
+@app.route("/eliminar_producto/<int:id_producto>", methods=["POST"])
+def eliminar_producto_html(id_producto):
+
+    inventario.eliminar_producto(id_producto)
+
+    return redirect("/inventario")
 
 @app.route("/ventas")
 def pagina_ventas():

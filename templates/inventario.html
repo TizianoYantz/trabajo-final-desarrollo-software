@@ -41,17 +41,27 @@
 
                     <td>
 
-                        <button
-                            type="button"
-                            onclick="abrirModal(
-                                '{{ producto.obtener_id() }}',
-                                '{{ producto.obtener_nombre() }}',
-                                '{{ producto.obtener_cantidad() }}'
-                            )">
-
+                        <!-- BOTÓN EDITAR -->
+                        <button type="button"
+                                onclick="abrirModal(
+                                    '{{ producto.obtener_id() }}',
+                                    '{{ producto.obtener_nombre() }}',
+                                    '{{ producto.obtener_cantidad() }}'
+                                )">
                             Editar
-
                         </button>
+
+                        <!-- BOTÓN ELIMINAR -->
+                        <form action="/eliminar_producto/{{ producto.obtener_id() }}"
+                              method="POST"
+                              style="display:inline;">
+
+                            <button type="submit"
+                                    onclick="return confirm('¿Seguro que querés eliminar este producto?')">
+                                Eliminar
+                            </button>
+
+                        </form>
 
                     </td>
 
@@ -69,11 +79,9 @@
 
             <form method="GET" action="/inventario">
 
-                <input
-                    type="text"
-                    name="buscar"
-                    placeholder="Nombre del producto"
-                >
+                <input type="text"
+                       name="buscar"
+                       placeholder="Nombre del producto">
 
                 <button type="submit">
                     Buscar
@@ -87,31 +95,25 @@
 
             <form method="POST" action="/agregar-producto">
 
-                <input
-                    type="text"
-                    name="nombre"
-                    placeholder="Nombre"
-                    required
-                >
+                <input type="text"
+                       name="nombre"
+                       placeholder="Nombre"
+                       required>
 
                 <br><br>
 
-                <input
-                    type="number"
-                    name="cantidad"
-                    placeholder="Cantidad"
-                    required
-                >
+                <input type="number"
+                       name="cantidad"
+                       placeholder="Cantidad"
+                       required>
 
                 <br><br>
 
-                <input
-                    type="number"
-                    name="stock_minimo"
-                    placeholder="Stock mínimo"
-                    value="5"
-                    required
-                >
+                <input type="number"
+                       name="stock_minimo"
+                       placeholder="Stock mínimo"
+                       value="5"
+                       required>
 
                 <br><br>
 
@@ -136,28 +138,22 @@
             <form id="formEditar" method="POST">
 
                 <label>Nombre</label>
-
                 <br>
 
-                <input
-                    type="text"
-                    id="nombreEditar"
-                    name="nombre"
-                    required
-                >
+                <input type="text"
+                       id="nombreEditar"
+                       name="nombre"
+                       required>
 
                 <br><br>
 
                 <label>Cantidad</label>
-
                 <br>
 
-                <input
-                    type="number"
-                    id="cantidadEditar"
-                    name="cantidad"
-                    required
-                >
+                <input type="number"
+                       id="cantidadEditar"
+                       name="cantidad"
+                       required>
 
                 <br><br>
 
@@ -165,9 +161,8 @@
                     Guardar
                 </button>
 
-                <button
-                    type="button"
-                    onclick="cerrarModal()">
+                <button type="button"
+                        onclick="cerrarModal()">
                     Cancelar
                 </button>
 
