@@ -11,25 +11,27 @@ body {
 
     background-color: #f5f5f5;
     font-family: 'Dancing Script', sans-serif;
+
+    justify-content: flex-start;
 }
 
 /* =========================
    TITULO PRINCIPAL (INDEX)
 ========================= */
 h1 {
-    margin-top: 40px;
-    font-size: 55px;
+    margin-top: 120px;
+    font-size: 65px;
+
     color: white;
 
     text-decoration: underline;
 
-    /* contorno negro del texto */
     text-shadow:
-        -2px -2px 0 #000,
-         2px -2px 0 #000,
-        -2px  2px 0 #000,
-         2px  2px 0 #000,
-         0px  0px 5px #000;
+        -2px -2px 0 #0b1f4b,
+         2px -2px 0 #0b1f4b,
+        -2px  2px 0 #0b1f4b,
+         2px  2px 0 #0b1f4b,
+         0px  0px 6px #0b1f4b;
 }
 
 /* =========================
@@ -50,9 +52,9 @@ h1 {
    BOTONES INVENTARIO / VENTAS
 ========================= */
 .boton {
-    width: 180px;
-    height: 90px;
-    font-size: 22px;
+    width: 230px;
+    height: 110px;
+    font-size: 28px;
 
     background: transparent;
 
@@ -66,19 +68,17 @@ h1 {
 
     font-family: 'Dancing Script', sans-serif;
 
-    /* contorno negro del texto */
     text-shadow:
-        -1px -1px 0 #000,
-         1px -1px 0 #000,
-        -1px  1px 0 #000,
-         1px  1px 0 #000;
+        -1px -1px 0 #0b1f4b,
+         1px -1px 0 #0b1f4b,
+        -1px  1px 0 #0b1f4b,
+         1px  1px 0 #0b1f4b;
 
-    /* borde interno negro */
     box-shadow: 0 0 0 2px black inset;
 }
 
 .boton:hover {
-    transform: scale(1.05);
+    transform: scale(1.08);
     background: rgba(255, 255, 255, 0.15);
 }
 
@@ -92,16 +92,24 @@ h1 {
 }
 
 /* =========================
-   TITULO INVENTARIO
+   TITULO INVENTARIO / VENTAS
 ========================= */
 .titulo {
     text-align: center;
     font-size: 48px;
     margin-top: 30px;
+
+    color: white;
+
+    text-shadow:
+        -2px -2px 0 #0b1f4b,
+         2px -2px 0 #0b1f4b,
+        -2px  2px 0 #0b1f4b,
+         2px  2px 0 #0b1f4b;
 }
 
 /* =========================
-   CONTENEDOR INVENTARIO
+   CONTENEDOR INVENTARIO / VENTAS
 ========================= */
 .contenedor-inventario {
     display: flex;
@@ -111,19 +119,31 @@ h1 {
 }
 
 /* =========================
-   TABLA PRODUCTOS
+   TABLAS Y STOCK BAJO
 ========================= */
-.tabla-productos {
+.tabla-productos,
+.stock-bajo {
     width: 65%;
+
+    background-color: #d9f1ff;
+    border: 2px solid #0b1f4b;
+    border-radius: 12px;
+
+    padding: 15px;
 }
 
-.tabla-productos table {
+.tabla-productos table,
+.stock-bajo table {
     width: 100%;
     border-collapse: collapse;
+    background-color: #eaf7ff;
 }
 
 .tabla-productos th,
-.tabla-productos td {
+.tabla-productos td,
+.stock-bajo th,
+.stock-bajo td {
+    border: 1px solid #0b1f4b;
     padding: 10px;
     text-align: center;
 }
@@ -134,9 +154,11 @@ h1 {
 .panel-lateral {
     width: 300px;
     padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    background-color: white;
+
+    border: 2px solid #0b1f4b;
+    border-radius: 12px;
+
+    background-color: #d9f1ff;
 }
 
 .panel-lateral input {
@@ -144,10 +166,64 @@ h1 {
     padding: 8px;
 }
 
-.panel-lateral button {
-    padding: 10px;
-    width: 100%;
+/* =========================
+   BOTONES GENERALES (BASE CHICA)
+========================= */
+button {
+    border: none;
+    padding: 5px 10px;
+    border-radius: 6px;
     cursor: pointer;
+    font-family: 'Dancing Script', sans-serif;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+/* =========================
+   BOTÓN EDITAR (AZUL - CHICO)
+========================= */
+button[type="button"] {
+    background-color: #2d6cdf;
+    color: white;
+    font-size: 13px;
+    padding: 5px 10px;
+}
+
+button[type="button"]:hover {
+    background-color: #1f4fa8;
+    transform: scale(1.03);
+}
+
+/* =========================
+   BOTÓN ELIMINAR (ROJO - CHICO)
+========================= */
+form button {
+    background-color: #e63946;
+    color: white;
+    font-size: 13px;
+    padding: 5px 10px;
+}
+
+form button:hover {
+    background-color: #b91c1c;
+    transform: scale(1.03);
+}
+
+/* =========================
+   BOTONES PANEL (GRANDES)
+========================= */
+.panel-lateral button {
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+
+    background-color: #2a9d8f;
+    color: white;
+}
+
+.panel-lateral button:hover {
+    background-color: #1f776d;
+    transform: scale(1.05);
 }
 
 /* =========================
@@ -186,8 +262,17 @@ h1 {
     margin: 0;
 }
 
+/* =========================
+   BOTÓN HOME
+========================= */
 .home-link {
-    font-size: 28px;
+    font-size: 32px;
     text-decoration: none;
-    color: black;
+    color: white;
+
+    text-shadow:
+        -1px -1px 0 #0b1f4b,
+         1px -1px 0 #0b1f4b,
+        -1px  1px 0 #0b1f4b,
+         1px  1px 0 #0b1f4b;
 }
