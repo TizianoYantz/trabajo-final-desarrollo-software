@@ -21,6 +21,7 @@ def pagina_inventario():
 
     nombre_busqueda = request.args.get("buscar")
 
+    # PRODUCTOS NORMALES
     if nombre_busqueda:
 
         productos = []
@@ -33,10 +34,20 @@ def pagina_inventario():
     else:
         productos = inventario.listar_productos()
 
+    # ⚠ PRODUCTOS CON POCO STOCK (NUEVO)
+    productos_poco_stock = []
+
+    for producto in inventario.listar_productos():
+
+        if producto.obtener_cantidad() < producto.obtener_stock_minimo():
+            productos_poco_stock.append(producto)
+
     return render_template(
         "inventario.html",
-        productos=productos
+        productos=productos,
+        productos_poco_stock=productos_poco_stock
     )
+
 
 @app.route("/agregar-producto", methods=["POST"])
 def agregar_producto_html():
@@ -54,7 +65,6 @@ def agregar_producto_html():
     return redirect("/inventario")
 
 
-
 @app.route("/guardar-producto/<int:id_producto>", methods=["POST"])
 def guardar_producto(id_producto):
 
@@ -69,12 +79,18 @@ def guardar_producto(id_producto):
 
     return redirect("/inventario")
 
+
 @app.route("/eliminar_producto/<int:id_producto>", methods=["POST"])
 def eliminar_producto_html(id_producto):
 
     inventario.eliminar_producto(id_producto)
 
     return redirect("/inventario")
+
+
+# ==================================
+# VENTAS (HTML)
+# ==================================
 
 @app.route("/ventas")
 def pagina_ventas():
@@ -86,6 +102,7 @@ def pagina_ventas():
         ventas=ventas
     )
 
+
 @app.route("/registrar-venta", methods=["POST"])
 def registrar_venta_html():
 
@@ -93,7 +110,6 @@ def registrar_venta_html():
     cantidad = int(request.form["cantidad"])
 
     try:
-
         inventario.vender_producto(
             id_producto,
             cantidad
@@ -110,6 +126,7 @@ def registrar_venta_html():
             ventas=ventas,
             error=str(e)
         )
+
 
 # ==================================
 # API PRODUCTOS
@@ -200,7 +217,7 @@ def reponer_stock(id_producto):
 
 
 # ==================================
-# STOCK BAJO
+# STOCK BAJO (API)
 # ==================================
 
 @app.route("/stock-bajo", methods=["GET"])
@@ -220,7 +237,7 @@ def stock_bajo():
 
 
 # ==================================
-# PRODUCTOS AGOTADOS
+# PRODUCTOS AGOTADOS (API)
 # ==================================
 
 @app.route("/agotados", methods=["GET"])
@@ -238,7 +255,7 @@ def agotados():
 
 
 # ==================================
-# API VENTAS
+# VENTAS API
 # ==================================
 
 @app.route("/ventas/registrar", methods=["POST"])
