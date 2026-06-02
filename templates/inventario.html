@@ -4,93 +4,117 @@
 <head>
     <meta charset="UTF-8">
     <title>Inventario</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
 
-    <h1>Inventario</h1>
+    <h1 class="titulo">Inventario</h1>
 
-    <a href="/">Volver al inicio</a>
+    <a href="/">← Volver al inicio</a>
 
-    <hr>
+    <div class="contenedor-inventario">
 
-    <h2>Agregar producto</h2>
+        <!-- TABLA -->
+        <div class="tabla-productos">
 
-    <form method="POST" action="/agregar-producto">
+            <h2>Productos</h2>
 
-        <label>Nombre:</label>
-        <input type="text" name="nombre" required>
+            <table border="1">
 
-        <br><br>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Stock</th>
+                    <th>Stock mínimo</th>
+                    <th>Acciones</th>
+                </tr>
 
-        <label>Cantidad:</label>
-        <input type="number" name="cantidad" required>
+                {% for producto in productos %}
+                <tr>
+                    <td>{{ producto.obtener_id() }}</td>
+                    <td>{{ producto.obtener_nombre() }}</td>
+                    <td>{{ producto.obtener_cantidad() }}</td>
+                    <td>{{ producto.obtener_stock_minimo() }}</td>
 
-        <br><br>
+                    <td>
+                        <a href="/editar-producto/{{ producto.obtener_id() }}">
+                            <button type="button">
+                                Editar
+                            </button>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
 
-        <label>Stock mínimo:</label>
-        <input type="number" name="stock_minimo" value="5" required>
+            </table>
 
-        <br><br>
+        </div>
 
-        <button type="submit">
-            Agregar Producto
-        </button>
+        <!-- PANEL DERECHO -->
+        <div class="panel-lateral">
 
-    </form>
-     
-    <hr>
+            <h2>Buscar producto</h2>
 
-    <h2>Buscar producto</h2>
+            <form method="GET" action="/inventario">
 
-    <form method="GET" action="/inventario">
+                <input
+                    type="text"
+                    name="buscar"
+                    placeholder="Nombre del producto"
+                >
 
-        <input
-            type="text"
-            name="buscar"
-            placeholder="Ingrese nombre del producto"
-        >
+                <button type="submit">
+                    Buscar
+                </button>
 
-        <button type="submit">
-            Buscar
-        </button>
+            </form>
 
-    </form>
+            <hr>
 
-    <hr>
-    <hr>
+            <h2>Agregar producto</h2>
 
-    <h2>Lista de productos</h2>
+            <form method="POST" action="/agregar-producto">
 
-    <table border="1">
+                <input
+                    type="text"
+                    name="nombre"
+                    placeholder="Nombre"
+                    required
+                >
 
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Stock</th>
-            <th>Stock Mínimo</th>
-            <th>Acciones</th>
-        </tr>
+                <br><br>
 
-        {% for producto in productos %}
-        <tr>
-            <td>{{ producto.obtener_id() }}</td>
-            <td>{{ producto.obtener_nombre() }}</td>
-            <td>{{ producto.obtener_cantidad() }}</td>
-            <td>{{ producto.obtener_stock_minimo() }}</td>
+                <input
+                    type="number"
+                    name="cantidad"
+                    placeholder="Cantidad"
+                    required
+                >
 
-            <td>
-                <a href="/editar-producto/{{ producto.obtener_id() }}">
-                    <button type="button">
-                        Editar
-                    </button>
-                </a>
-            </td>
+                <br><br>
 
-        </tr>
-        {% endfor %}
+                <input
+                    type="number"
+                    name="stock_minimo"
+                    placeholder="Stock mínimo"
+                    value="5"
+                    required
+                >
 
-    </table>
+                <br><br>
+
+                <button type="submit">
+                    Agregar Producto
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
 
 </body>
 

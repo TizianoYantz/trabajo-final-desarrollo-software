@@ -1,20 +1,34 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <title>Sistema de Inventario</title>
+    <title>Sistema de Gestión de Inventario</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
 
     <h1>Sistema de Gestión de Inventario</h1>
 
-    <a href="/inventario">
-        <button>Inventario</button>
-    </a>
+    <div class="menu">
 
-    <a href="/ventas">
-        <button>Ventas</button>
-    </a>
+        <a href="/inventario">
+            <button class="boton">
+                 Inventario
+            </button>
+        </a>
+
+        <a href="/ventas">
+            <button class="boton">
+                 Ventas
+            </button>
+        </a>
+
+    </div>
 
 </body>
+
 </html>
