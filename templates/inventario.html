@@ -40,12 +40,21 @@
                     <td>{{ producto.obtener_stock_minimo() }}</td>
 
                     <td>
-                        <a href="/editar-producto/{{ producto.obtener_id() }}">
-                            <button type="button">
-                                Editar
-                            </button>
-                        </a>
+
+                        <button
+                            type="button"
+                            onclick="abrirModal(
+                                '{{ producto.obtener_id() }}',
+                                '{{ producto.obtener_nombre() }}',
+                                '{{ producto.obtener_cantidad() }}'
+                            )">
+
+                            Editar
+
+                        </button>
+
                     </td>
+
                 </tr>
                 {% endfor %}
 
@@ -115,6 +124,60 @@
         </div>
 
     </div>
+
+    <!-- MODAL EDITAR -->
+
+    <div id="modalEditar" class="modal">
+
+        <div class="modal-contenido">
+
+            <h2>Editar Producto</h2>
+
+            <form id="formEditar" method="POST">
+
+                <label>Nombre</label>
+
+                <br>
+
+                <input
+                    type="text"
+                    id="nombreEditar"
+                    name="nombre"
+                    required
+                >
+
+                <br><br>
+
+                <label>Cantidad</label>
+
+                <br>
+
+                <input
+                    type="number"
+                    id="cantidadEditar"
+                    name="cantidad"
+                    required
+                >
+
+                <br><br>
+
+                <button type="submit">
+                    Guardar
+                </button>
+
+                <button
+                    type="button"
+                    onclick="cerrarModal()">
+                    Cancelar
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <script src="{{ url_for('static', filename='js/inventario.js') }}"></script>
 
 </body>
 
