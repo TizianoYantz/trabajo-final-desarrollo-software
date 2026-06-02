@@ -1,48 +1,108 @@
+/* =========================
+   GENERAL
+========================= */
 body {
     margin: 0;
     height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
+
     background-color: #f5f5f5;
     font-family: 'Dancing Script', sans-serif;
 }
 
+/* =========================
+   TITULO PRINCIPAL (INDEX)
+========================= */
 h1 {
-    margin-top: 80px;
-    font-size: 48px;
-    text-align: center;
-    color: #020202;
-}
-
-.menu {
-    margin-top: 120px;
-    display: flex;
-    gap: 80px;
-}
-
-.boton {
-    width: 250px;
-    height: 120px;
-    font-size: 28px;
-    border: none;
-    border-radius: 15px;
-    cursor: pointer;
-    background-color: #000000;
+    margin-top: 40px;
+    font-size: 55px;
     color: white;
+
+    text-decoration: underline;
+
+    /* contorno negro del texto */
+    text-shadow:
+        -2px -2px 0 #000,
+         2px -2px 0 #000,
+        -2px  2px 0 #000,
+         2px  2px 0 #000,
+         0px  0px 5px #000;
+}
+
+/* =========================
+   MENU INDEX
+========================= */
+.menu {
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+    margin-top: 60px;
+}
+
+.opcion {
+    text-align: center;
+}
+
+/* =========================
+   BOTONES INVENTARIO / VENTAS
+========================= */
+.boton {
+    width: 180px;
+    height: 90px;
+    font-size: 22px;
+
+    background: transparent;
+
+    color: white;
+
+    border: 2px solid white;
+    border-radius: 15px;
+
+    cursor: pointer;
     transition: 0.3s;
+
+    font-family: 'Dancing Script', sans-serif;
+
+    /* contorno negro del texto */
+    text-shadow:
+        -1px -1px 0 #000,
+         1px -1px 0 #000,
+        -1px  1px 0 #000,
+         1px  1px 0 #000;
+
+    /* borde interno negro */
+    box-shadow: 0 0 0 2px black inset;
 }
 
 .boton:hover {
     transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.15);
 }
 
+/* =========================
+   IMAGENES MENU
+========================= */
+.imagen-menu {
+    width: 130px;
+    height: auto;
+    border-radius: 10px;
+}
+
+/* =========================
+   TITULO INVENTARIO
+========================= */
 .titulo {
     text-align: center;
     font-size: 48px;
     margin-top: 30px;
 }
 
+/* =========================
+   CONTENEDOR INVENTARIO
+========================= */
 .contenedor-inventario {
     display: flex;
     justify-content: center;
@@ -50,6 +110,9 @@ h1 {
     margin-top: 40px;
 }
 
+/* =========================
+   TABLA PRODUCTOS
+========================= */
 .tabla-productos {
     width: 65%;
 }
@@ -65,6 +128,9 @@ h1 {
     text-align: center;
 }
 
+/* =========================
+   PANEL LATERAL
+========================= */
 .panel-lateral {
     width: 300px;
     padding: 20px;
@@ -84,9 +150,11 @@ h1 {
     cursor: pointer;
 }
 
+/* =========================
+   MODAL
+========================= */
 .modal {
     display: none;
-
     position: fixed;
     top: 0;
     left: 0;
@@ -98,46 +166,22 @@ h1 {
 }
 
 .modal-contenido {
-
     background-color: white;
-
     width: 400px;
-
     padding: 20px;
-
     border-radius: 10px;
-
     margin: 150px auto;
 }
 
-body {
-    text-align: center;
-}
+/* =========================
+   FONDO HOME
+========================= */
+.home {
+    background-image: url("/static/img/fondo.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 
-h1 {
-    font-size: 50px;
-    margin-top: 30px;
-}
-
-.menu {
-    display: flex;
-    justify-content: center;
-    gap: 100px;
-    margin-top: 50px;
-}
-
-.opcion {
-    text-align: center;
-}
-
-.boton {
-    padding: 15px 40px;
-    font-size: 20px;
-    cursor: pointer;
-}
-
-.imagen-menu {
-    width: 150px;
-    height: auto;
-    border-radius: 10px;
+    height: 100vh;
+    margin: 0;
 }
