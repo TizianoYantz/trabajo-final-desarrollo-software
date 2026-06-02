@@ -19,7 +19,19 @@ def inicio():
 @app.route("/inventario")
 def pagina_inventario():
 
-    productos = inventario.listar_productos()
+    nombre_busqueda = request.args.get("buscar")
+
+    if nombre_busqueda:
+
+        productos = []
+
+        for producto in inventario.listar_productos():
+
+            if nombre_busqueda.lower() in producto.obtener_nombre().lower():
+                productos.append(producto)
+
+    else:
+        productos = inventario.listar_productos()
 
     return render_template(
         "inventario.html",
