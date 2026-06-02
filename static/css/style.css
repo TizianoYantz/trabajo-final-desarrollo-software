@@ -276,3 +276,16 @@ form button:hover {
         -1px  1px 0 #0b1f4b,
          1px  1px 0 #0b1f4b;
 }
+
+/* =========================
+   FONDO INVENTARIO
+========================= */
+.inventario {
+    background-image: url("/static/img/fondo2.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    min-height: 100vh;
+    margin: 0;
+}
