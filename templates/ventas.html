@@ -4,57 +4,90 @@
 <head>
     <meta charset="UTF-8">
     <title>Ventas</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
 
-    <h1>Ventas</h1>
+    <h1 class="titulo">Ventas</h1>
 
-    <a href="/">Volver al inicio</a>
+    <a href="/">← Volver al inicio</a>
 
-    <hr>
+    <div class="contenedor-inventario">
 
-    <h2>Registrar venta</h2>
+        <!-- HISTORIAL -->
+        <div class="tabla-productos">
 
-    <form method="POST" action="/registrar-venta">
+            <h2>Historial de Ventas</h2>
 
-        <label>ID Producto:</label>
-        <input type="number" name="id_producto" required>
+            <table border="1">
 
-        <br><br>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Fecha</th>
+                </tr>
 
-        <label>Cantidad:</label>
-        <input type="number" name="cantidad" required>
+                {% for venta in ventas %}
+                <tr>
+                    <td>{{ venta.obtener_producto().obtener_nombre() }}</td>
+                    <td>{{ venta.obtener_cantidad() }}</td>
+                    <td>{{ venta.obtener_fecha().strftime("%d/%m/%Y %H:%M") }}</td>
+                </tr>
+                {% endfor %}
 
-        <br><br>
+            </table>
 
-        <button type="submit">
-            Registrar Venta
-        </button>
+        </div>
 
-    </form>
+        <!-- PANEL DERECHO -->
+        <div class="panel-lateral">
 
-    <hr>
+            <h2>Registrar Venta</h2>
 
-    <h2>Historial de Ventas</h2>
+            {% if error %}
+            <p style="color:red;">
+                {{ error }}
+            </p>
+            {% endif %}
+            
+            <form method="POST" action="/registrar-venta">
 
-    <table border="1">
+                <label>ID Producto</label>
 
-        <tr>
-            <th>Producto</th>
-            <th>Cantidad</th>
-            <th>Fecha</th>
-        </tr>
+                <br>
 
-        {% for venta in ventas %}
-        <tr>
-            <td>{{ venta.obtener_producto().obtener_nombre() }}</td>
-            <td>{{ venta.obtener_cantidad() }}</td>
-            <td>{{ venta.obtener_fecha().strftime("%d/%m/%Y %H:%M") }}</td>
-        </tr>
-        {% endfor %}
+                <input
+                    type="number"
+                    name="id_producto"
+                    required
+                >
 
-    </table>
+                <br><br>
+
+                <label>Cantidad</label>
+
+                <br>
+
+                <input
+                    type="number"
+                    name="cantidad"
+                    required
+                >
+
+                <br><br>
+
+                <button type="submit">
+                    Registrar Venta
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
 
 </body>
 

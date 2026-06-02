@@ -97,12 +97,24 @@ def registrar_venta_html():
     id_producto = int(request.form["id_producto"])
     cantidad = int(request.form["cantidad"])
 
-    inventario.vender_producto(
-        id_producto,
-        cantidad
-    )
+    try:
 
-    return redirect("/ventas")
+        inventario.vender_producto(
+            id_producto,
+            cantidad
+        )
+
+        return redirect("/ventas")
+
+    except ValueError as e:
+
+        ventas = inventario.obtener_ventas()
+
+        return render_template(
+            "ventas.html",
+            ventas=ventas,
+            error=str(e)
+        )
 
 # ==================================
 # API PRODUCTOS
