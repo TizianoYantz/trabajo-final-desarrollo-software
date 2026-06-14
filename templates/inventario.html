@@ -32,6 +32,7 @@
                     <th>Nombre</th>
                     <th>Categoría</th>
                     <th>Precio Unitario</th>
+                    <th>Valor Total</th>
                     <th>Stock</th>
                     <th>Stock mínimo</th>
                     <th>Acciones</th>
@@ -43,6 +44,7 @@
                     <td>{{ producto.obtener_nombre() }}</td>
                     <td>{{ producto.obtener_categoria() }}</td>
                     <td>${{ producto.obtener_precio_unitario() }}</td>
+                    <td>${{ producto.obtener_valor_total() }}</td>
                     <td>{{ producto.obtener_cantidad() }}</td>
                     <td>{{ producto.obtener_stock_minimo() }}</td>
 
@@ -78,7 +80,16 @@
                 {% endfor %}
 
             </table>
+            
 
+            <br>
+
+            <h3>
+                Valor total del inventario:
+                ${{ valor_total }}
+            </h3>
+
+            
         </div>
 
         <!-- PANEL DERECHO -->

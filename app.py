@@ -45,7 +45,9 @@ def pagina_inventario():
     return render_template(
         "inventario.html",
         productos=productos,
-        productos_poco_stock=productos_poco_stock
+        productos_poco_stock=productos_poco_stock,
+        valor_total=inventario.obtener_valor_total_inventario()
+    
     )
 
 

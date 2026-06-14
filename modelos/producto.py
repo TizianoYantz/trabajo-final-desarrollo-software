@@ -85,3 +85,5 @@ class Producto:
             f"- Stock: {self._cantidad} "
             f"- Precio: ${self._precio_unitario}"
         )
+    def obtener_valor_total(self):
+        return self._cantidad * self._precio_unitario

@@ -137,3 +137,11 @@ class Inventario:
             for producto in self._productos
             if producto.tiene_stock_bajo()
         ]
+
+    def obtener_valor_total_inventario(self):
+        total = 0
+
+        for producto in self._productos:
+            total += producto.obtener_valor_total()
+
+        return total
