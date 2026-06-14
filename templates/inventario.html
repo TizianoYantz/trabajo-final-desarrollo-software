@@ -25,7 +25,36 @@
 
             <h2>Productos</h2>
 
-            <table border="1">
+            <div class="filtros">
+
+                <label>Ordenar:</label>
+
+                <select id="ordenar" onchange="aplicarFiltros()">
+                    <option value="">Sin ordenar</option>
+                    <option value="nombre_asc">Nombre A-Z</option>
+                    <option value="nombre_desc">Nombre Z-A</option>
+                    <option value="precio_asc">Precio menor a mayor</option>
+                    <option value="precio_desc">Precio mayor a menor</option>
+                </select>
+
+                <label>Categoría:</label>
+
+                <select id="categoria" onchange="aplicarFiltros()">
+                    <option value="">Todas</option>
+
+                    {% for producto in productos %}
+                    <option value="{{ producto.obtener_categoria() }}">
+                        {{ producto.obtener_categoria() }}
+                    </option>
+                    {% endfor %}
+                </select>
+
+            </div>
+
+            <br>            
+
+
+            <table border="1" id="tablaProductos">
 
                 <tr>
                     <th>ID</th>
