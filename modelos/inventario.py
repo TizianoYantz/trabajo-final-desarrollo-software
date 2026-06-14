@@ -9,6 +9,13 @@ class Inventario:
         self._proximo_id = 1
 
     def agregar_producto(self, nombre, cantidad, stock_minimo=5):
+
+        producto_existente = self.buscar_por_nombre(nombre)
+
+        if producto_existente:
+            producto_existente.reponer_stock(cantidad)
+            return producto_existente
+
         producto = Producto(
             self._proximo_id,
             nombre,
@@ -17,10 +24,11 @@ class Inventario:
         )
 
         self._productos.append(producto)
+
         self._proximo_id += 1
 
         return producto
-
+    
     def eliminar_producto(self, id_producto):
         producto = self.buscar_producto(id_producto)
 
