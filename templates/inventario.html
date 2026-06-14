@@ -30,6 +30,8 @@
                 <tr>
                     <th>ID</th>
                     <th>Nombre</th>
+                    <th>Categoría</th>
+                    <th>Precio Unitario</th>
                     <th>Stock</th>
                     <th>Stock mínimo</th>
                     <th>Acciones</th>
@@ -39,6 +41,8 @@
                 <tr>
                     <td>{{ producto.obtener_id() }}</td>
                     <td>{{ producto.obtener_nombre() }}</td>
+                    <td>{{ producto.obtener_categoria() }}</td>
+                    <td>${{ producto.obtener_precio_unitario() }}</td>
                     <td>{{ producto.obtener_cantidad() }}</td>
                     <td>{{ producto.obtener_stock_minimo() }}</td>
 
@@ -105,9 +109,24 @@
 
                 <br><br>
 
+                <input type="text"
+                       name="categoria"
+                       placeholder="Categoría"
+                       required>
+
+                <br><br>
+
                 <input type="number"
                        name="cantidad"
                        placeholder="Cantidad"
+                       required>
+
+                <br><br>
+
+                <input type="number"
+                       step="0.01"
+                       name="precio_unitario"
+                       placeholder="Precio Unitario"
                        required>
 
                 <br><br>

@@ -54,11 +54,15 @@ def agregar_producto_html():
 
     nombre = request.form["nombre"]
     cantidad = int(request.form["cantidad"])
+    categoria = request.form["categoria"]
+    precio_unitario = float(request.form["precio_unitario"])
     stock_minimo = int(request.form["stock_minimo"])
 
     inventario.agregar_producto(
         nombre,
         cantidad,
+        categoria,
+        precio_unitario,
         stock_minimo
     )
 
@@ -141,6 +145,8 @@ def obtener_productos():
         resultado.append({
             "id": p.obtener_id(),
             "nombre": p.obtener_nombre(),
+            "categoria": p.obtener_categoria(),
+            "precio_unitario": p.obtener_precio_unitario(),
             "cantidad": p.obtener_cantidad(),
             "stock_minimo": p.obtener_stock_minimo()
         })
@@ -156,12 +162,16 @@ def agregar_producto():
     producto = inventario.agregar_producto(
         data["nombre"],
         data["cantidad"],
+        data["categoria"],
+        data["precio_unitario"],
         data.get("stock_minimo", 5)
     )
 
     return jsonify({
         "id": producto.obtener_id(),
         "nombre": producto.obtener_nombre(),
+        "categoria": producto.obtener_categoria(),
+        "precio_unitario": producto.obtener_precio_unitario(),
         "cantidad": producto.obtener_cantidad(),
         "stock_minimo": producto.obtener_stock_minimo()
     })
@@ -176,6 +186,8 @@ def actualizar_producto(id_producto):
         id_producto,
         nuevo_nombre=data.get("nombre"),
         nueva_cantidad=data.get("cantidad"),
+        nueva_categoria=data.get("categoria"),
+        nuevo_precio_unitario=data.get("precio_unitario"),
         nuevo_stock_minimo=data.get("stock_minimo")
     )
 

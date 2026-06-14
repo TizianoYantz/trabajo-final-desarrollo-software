@@ -8,7 +8,14 @@ class Inventario:
         self._ventas = []
         self._proximo_id = 1
 
-    def agregar_producto(self, nombre, cantidad, stock_minimo=5):
+    def agregar_producto(
+        self,
+        nombre,
+        cantidad,
+        categoria,
+        precio_unitario,
+        stock_minimo=5
+    ):
 
         producto_existente = self.buscar_por_nombre(nombre)
 
@@ -20,6 +27,8 @@ class Inventario:
             self._proximo_id,
             nombre,
             cantidad,
+            categoria,
+            precio_unitario,
             stock_minimo
         )
 
@@ -28,7 +37,7 @@ class Inventario:
         self._proximo_id += 1
 
         return producto
-    
+
     def eliminar_producto(self, id_producto):
         producto = self.buscar_producto(id_producto)
 
@@ -60,6 +69,8 @@ class Inventario:
         id_producto,
         nuevo_nombre=None,
         nueva_cantidad=None,
+        nueva_categoria=None,
+        nuevo_precio_unitario=None,
         nuevo_stock_minimo=None
     ):
         producto = self.buscar_producto(id_producto)
@@ -73,8 +84,18 @@ class Inventario:
         if nueva_cantidad is not None:
             producto.modificar_cantidad(nueva_cantidad)
 
+        if nueva_categoria is not None:
+            producto.modificar_categoria(nueva_categoria)
+
+        if nuevo_precio_unitario is not None:
+            producto.modificar_precio_unitario(
+                nuevo_precio_unitario
+            )
+
         if nuevo_stock_minimo is not None:
-            producto.modificar_stock_minimo(nuevo_stock_minimo)
+            producto.modificar_stock_minimo(
+                nuevo_stock_minimo
+            )
 
         return True
 
