@@ -211,10 +211,10 @@ form button:hover {
 /* =========================
    BOTONES PANEL (GRANDES)
 ========================= */
-.panel-lateral button {
-    width: 100%;
-    padding: 10px;
-    font-size: 18px;
+.panel-lateral form button {
+    width: auto;
+    padding: 6px 12px;
+    font-size: 14px;
 
     background-color: #2a9d8f;
     color: white;
@@ -289,14 +289,75 @@ form button:hover {
     margin: 0;
 }
 
+/* HISTORIAL igual que los otros paneles */
 .historial {
-    width: 95%;
-    margin: 30px auto;
-    padding: 20px;
-    background: rgba(255,255,255,0.8);
-    border-radius: 10px;
+    background-color: #d9f1ff;
+    border: 2px solid #0b1f4b;
+    border-radius: 12px;
+
+    padding: 15px;
+    margin: 0;
 }
 
 .historial table {
     width: 100%;
+    border-collapse: collapse;
+    background-color: #eaf7ff;
+}
+
+.historial th,
+.historial td {
+    border: 1px solid #0b1f4b;
+    padding: 10px;
+    text-align: center;
+}
+
+/* =========================
+   NUEVO LAYOUT INVENTARIO
+========================= */
+
+.contenedor-principal {
+    display: grid;
+    grid-template-columns: 3fr 1fr; /* 70-75% / 25-30% */
+    gap: 20px;
+    width: 95%;
+    margin-top: 20px;
+}
+
+/* lado izquierdo (productos) */
+.productos {
+    width: 100%;
+}
+
+/* lado derecho (buscar + panel) */
+.panel-derecho {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* caja de buscar */
+.buscar {
+    background-color: #d9f1ff;
+    border: 2px solid #0b1f4b;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+/* FOOTER (stock bajo + historial) */
+.footer-inventario {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+
+    width: 95%;
+    margin-top: 30px;
+}
+
+/* cajas del footer */
+.footer-box {
+    background-color: #d9f1ff;
+    border: 2px solid #0b1f4b;
+    border-radius: 12px;
+    padding: 15px;
 }
