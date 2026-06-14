@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Historial</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <h1 class="titulo">Historial de Movimientos</h1>
+
+    <a href="/" class="home-link">
+        🏠
+    </a>
+
+    <table border="1">
+
+        <tr>
+            <th>Fecha</th>
+            <th>Movimiento</th>
+        </tr>
+
+        {% for movimiento in movimientos %}
+        <tr>
+
+            <td>
+                {{ movimiento.obtener_fecha().strftime("%d/%m/%Y %H:%M:%S") }}
+            </td>
+
+            <td>
+                {{ movimiento.obtener_descripcion() }}
+            </td>
+
+        </tr>
+        {% endfor %}
+
+    </table>
+
+</body>
+
+</html>
