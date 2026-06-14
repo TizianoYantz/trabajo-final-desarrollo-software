@@ -7,6 +7,7 @@ class Inventario:
         self._productos = []
         self._ventas = []
         self._proximo_id = 1
+        self._movimientos = []
 
     def agregar_producto(
         self,
@@ -21,6 +22,11 @@ class Inventario:
 
         if producto_existente:
             producto_existente.reponer_stock(cantidad)
+
+            self.registrar_movimiento(
+                f"Stock agregado: {nombre} (+{cantidad})"
+            )
+
             return producto_existente
 
         producto = Producto(
@@ -34,6 +40,10 @@ class Inventario:
 
         self._productos.append(producto)
 
+        self.registrar_movimiento(
+            f"Producto agregado: {nombre} (+{cantidad})"
+        )
+
         self._proximo_id += 1
 
         return producto
@@ -42,6 +52,11 @@ class Inventario:
         producto = self.buscar_producto(id_producto)
 
         if producto:
+
+            self.registrar_movimiento(
+                f"Producto eliminado: {producto.obtener_nombre()}"
+            )
+
             self._productos.remove(producto)
             return True
 
@@ -97,6 +112,10 @@ class Inventario:
                 nuevo_stock_minimo
             )
 
+        self.registrar_movimiento(
+            f"Producto actualizado: {producto.obtener_nombre()}"
+        )
+
         return True
 
     def reponer_producto(self, id_producto, cantidad):
@@ -104,6 +123,11 @@ class Inventario:
 
         if producto:
             producto.reponer_stock(cantidad)
+
+            self.registrar_movimiento(
+                f"Stock repuesto: {producto.obtener_nombre()} (+{cantidad})"
+            )
+
             return True
 
         return False
@@ -115,6 +139,10 @@ class Inventario:
             return False
 
         producto.descontar_stock(cantidad)
+
+        self.registrar_movimiento(
+            f"Venta registrada: {producto.obtener_nombre()} (-{cantidad})"
+        )
 
         venta = Venta(producto, cantidad)
         self._ventas.append(venta)
@@ -145,3 +173,13 @@ class Inventario:
             total += producto.obtener_valor_total()
 
         return total
+
+    def registrar_movimiento(self, descripcion):
+        from modelos.movimiento import Movimiento
+
+        movimiento = Movimiento(descripcion)
+
+        self._movimientos.append(movimiento)
+
+    def obtener_movimientos(self):
+        return self._movimientos

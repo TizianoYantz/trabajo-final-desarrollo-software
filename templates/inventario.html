@@ -221,7 +221,44 @@
             {% endif %}
 
         </div>
+        <div class="historial">
 
+            <h2>📜 Historial de movimientos</h2>
+
+            {% if movimientos|length == 0 %}
+
+                <p>No hay movimientos registrados.</p>
+
+            {% else %}
+
+                <table border="1">
+
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Movimiento</th>
+                    </tr>
+
+                    {% for movimiento in movimientos %}
+
+                    <tr>
+
+                        <td>
+                            {{ movimiento.obtener_fecha().strftime("%d/%m/%Y %H:%M:%S") }}
+                        </td>
+
+                        <td>
+                            {{ movimiento.obtener_descripcion() }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </table>
+
+            {% endif %}
+
+        </div>
     </div>
 
     <!-- MODAL EDITAR -->

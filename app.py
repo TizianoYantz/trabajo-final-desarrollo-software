@@ -42,12 +42,16 @@ def pagina_inventario():
         if producto.obtener_cantidad() < producto.obtener_stock_minimo():
             productos_poco_stock.append(producto)
 
+    movimientos = inventario.obtener_movimientos()
+    
     return render_template(
         "inventario.html",
         productos=productos,
         productos_poco_stock=productos_poco_stock,
-        valor_total=inventario.obtener_valor_total_inventario()
-    
+        valor_total=inventario.obtener_valor_total_inventario(),
+        movimientos=movimientos
+
+
     )
 
 

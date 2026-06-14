@@ -3,7 +3,7 @@
 ========================= */
 body {
     margin: 0;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -14,7 +14,6 @@ body {
 
     justify-content: flex-start;
 }
-
 /* =========================
    TITULO PRINCIPAL (INDEX)
 ========================= */
@@ -288,4 +287,16 @@ form button:hover {
 
     min-height: 100vh;
     margin: 0;
+}
+
+.historial {
+    width: 95%;
+    margin: 30px auto;
+    padding: 20px;
+    background: rgba(255,255,255,0.8);
+    border-radius: 10px;
+}
+
+.historial table {
+    width: 100%;
 }
