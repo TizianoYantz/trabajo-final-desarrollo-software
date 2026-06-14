@@ -73,11 +73,15 @@ def agregar_producto_html():
 def guardar_producto(id_producto):
 
     nombre = request.form["nombre"]
+    categoria = request.form["categoria"]
+    precio_unitario = float(request.form["precio_unitario"])
     cantidad = int(request.form["cantidad"])
 
     inventario.actualizar_producto(
         id_producto,
         nuevo_nombre=nombre,
+        nueva_categoria=categoria,
+        nuevo_precio_unitario=precio_unitario,
         nueva_cantidad=cantidad
     )
 

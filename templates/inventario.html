@@ -53,6 +53,8 @@
                                 onclick="abrirModal(
                                     '{{ producto.obtener_id() }}',
                                     '{{ producto.obtener_nombre() }}',
+                                    '{{ producto.obtener_categoria() }}',
+                                    '{{ producto.obtener_precio_unitario() }}',
                                     '{{ producto.obtener_cantidad() }}'
                                 )">
                             Editar
@@ -197,6 +199,27 @@
                 <input type="text"
                        id="nombreEditar"
                        name="nombre"
+                       required>
+
+                <br><br>
+
+                <label>Categoría</label>
+                <br>
+
+                <input type="text"
+                       id="categoriaEditar"
+                       name="categoria"
+                       required>
+
+                <br><br>
+
+                <label>Precio Unitario</label>
+                <br>
+
+                <input type="number"
+                       step="0.01"
+                       id="precioEditar"
+                       name="precio_unitario"
                        required>
 
                 <br><br>
