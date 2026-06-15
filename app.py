@@ -429,31 +429,50 @@ def agotados():
 
 
 # ==========================
-# VENTAS (TEMPORAL)
+# VENTAS
 # ==========================
 @app.route("/ventas")
 def pagina_ventas():
+
     if "usuario" not in session:
         return redirect("/login")
 
     conn = conectar_db()
     cursor = conn.cursor()
 
+    # HISTORIAL DE VENTAS
     cursor.execute("""
         SELECT v.id, p.nombre, v.cantidad, v.fecha
         FROM ventas v
         JOIN productos p ON p.id = v.producto_id
         ORDER BY v.id DESC
     """)
-
     ventas = cursor.fetchall()
+
+    # PRODUCTOS DISPONIBLES PARA VENDER
+    cursor.execute("""
+        SELECT *
+        FROM productos
+        WHERE cantidad > 0
+        ORDER BY nombre
+    """)
+    productos = cursor.fetchall()
+
     conn.close()
 
-    return render_template("ventas.html", ventas=ventas)
+    return render_template(
+        "ventas.html",
+        ventas=ventas,
+        productos=productos
+    )
 
 
+# ==========================
+# REGISTRAR VENTA
+# ==========================
 @app.route("/ventas/registrar", methods=["POST"])
 def registrar_venta():
+
     if "usuario" not in session:
         return redirect("/login")
 
@@ -463,36 +482,68 @@ def registrar_venta():
     producto_id = int(request.form["id_producto"])
     cantidad = int(request.form["cantidad"])
 
-    # 🔍 buscar producto
+    # BUSCAR PRODUCTO
     cursor.execute("""
-        SELECT * FROM productos WHERE id = ?
+        SELECT *
+        FROM productos
+        WHERE id = ?
     """, (producto_id,))
 
     producto = cursor.fetchone()
 
     if not producto:
-        conn.close()
-        return jsonify({"error": "Producto no encontrado"}), 404
 
-    # ❌ validar stock
+        conn.close()
+
+        return render_template(
+            "ventas.html",
+            error="Producto no encontrado"
+        )
+
+    # VALIDAR STOCK
     if producto["cantidad"] < cantidad:
-        conn.close()
-        return jsonify({"error": "Stock insuficiente"}), 400
 
-    # 🔻 descontar stock
+        cursor.execute("""
+            SELECT *
+            FROM productos
+            WHERE cantidad > 0
+            ORDER BY nombre
+        """)
+
+        productos = cursor.fetchall()
+
+        cursor.execute("""
+            SELECT v.id, p.nombre, v.cantidad, v.fecha
+            FROM ventas v
+            JOIN productos p ON p.id = v.producto_id
+            ORDER BY v.id DESC
+        """)
+
+        ventas = cursor.fetchall()
+
+        conn.close()
+
+        return render_template(
+            "ventas.html",
+            ventas=ventas,
+            productos=productos,
+            error="Stock insuficiente"
+        )
+
+    # DESCONTAR STOCK
     cursor.execute("""
         UPDATE productos
         SET cantidad = cantidad - ?
         WHERE id = ?
     """, (cantidad, producto_id))
 
-    # 🧾 guardar venta
+    # GUARDAR VENTA
     cursor.execute("""
         INSERT INTO ventas (producto_id, cantidad)
         VALUES (?, ?)
     """, (producto_id, cantidad))
 
-    # 📜 movimiento historial
+    # HISTORIAL
     cursor.execute("""
         INSERT INTO movimientos (descripcion)
         VALUES (?)
@@ -502,7 +553,6 @@ def registrar_venta():
     conn.close()
 
     return redirect("/ventas")
-
 
 # ==========================
 # RUN

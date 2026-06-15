@@ -7,14 +7,13 @@
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="stylesheet"
-        href="{{ url_for('static', filename='css/style.css') }}">
 
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap"
-        rel="stylesheet">          
+          rel="stylesheet">
 </head>
 
 <body class="inventario">
+
     <div class="usuario-info">
 
         <div class="usuario-icono">
@@ -52,25 +51,25 @@
                 <p>No hay ventas registradas.</p>
             {% else %}
 
-            <table border="1">
+                <table border="1">
 
-                <tr>
-                    <th>ID</th>
-                    <th>Producto</th>
-                    <th>Cantidad</th>
-                    <th>Fecha</th>
-                </tr>
+                    <tr>
+                        <th>ID</th>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Fecha</th>
+                    </tr>
 
-                {% for venta in ventas %}
-                <tr>
-                    <td>{{ venta["id"] }}</td>
-                    <td>{{ venta["nombre"] }}</td>
-                    <td>{{ venta["cantidad"] }}</td>
-                    <td>{{ venta["fecha"] }}</td>
-                </tr>
-                {% endfor %}
+                    {% for venta in ventas %}
+                    <tr>
+                        <td>{{ venta["id"] }}</td>
+                        <td>{{ venta["nombre"] }}</td>
+                        <td>{{ venta["cantidad"] }}</td>
+                        <td>{{ venta["fecha"] }}</td>
+                    </tr>
+                    {% endfor %}
 
-            </table>
+                </table>
 
             {% endif %}
 
@@ -82,22 +81,42 @@
             <h2>Registrar Venta</h2>
 
             {% if error %}
-            <p style="color:red;">
-                {{ error }}
-            </p>
+                <p style="color:red;">
+                    {{ error }}
+                </p>
             {% endif %}
 
             <form method="POST" action="/ventas/registrar">
 
-                <label>ID Producto</label>
+                <label>Producto</label>
                 <br>
-                <input type="number" name="id_producto" required>
+
+                <select name="id_producto" required>
+
+                    <option value="">
+                        Seleccionar producto
+                    </option>
+
+                    {% for producto in productos %}
+                        <option value="{{ producto['id'] }}">
+                            {{ producto['nombre'] }}
+                            (Stock: {{ producto['cantidad'] }})
+                        </option>
+                    {% endfor %}
+
+                </select>
 
                 <br><br>
 
                 <label>Cantidad</label>
                 <br>
-                <input type="number" name="cantidad" required>
+
+                <input
+                    type="number"
+                    name="cantidad"
+                    min="1"
+                    required
+                >
 
                 <br><br>
 
@@ -112,4 +131,5 @@
     </div>
 
 </body>
+
 </html>
