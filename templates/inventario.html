@@ -47,6 +47,16 @@
 
             <h2>Productos</h2>
 
+            <!-- 🔵 BOTÓN EXPORTAR (ICONO SOLO) -->
+            <div style="margin-bottom: 10px;">
+                <a href="/exportar-excel"
+                   class="btn-exportar"
+                   title="Exportar a Excel"
+                   aria-label="Exportar a Excel">
+                    📊
+                </a>
+            </div>
+
             <div class="filtros">
 
                 <label>Ordenar:</label>
@@ -70,7 +80,6 @@
 
                 </select>
 
-                <!-- 🟢 BOTÓN MOSTRAR TODOS -->
                 <a href="/inventario">
                     <button type="button">
                         Mostrar todos
@@ -81,7 +90,6 @@
 
             <br>
 
-            <!-- 🔴 MENSAJE SI NO HAY RESULTADOS -->
             {% if no_resultados %}
                 <p style="color:red; font-weight:bold;">
                     ❌ No existe ese producto
@@ -192,7 +200,6 @@
 
             <hr>
 
-            <!-- 🆕 REPOSICIÓN DE STOCK -->
             <h2>Reponer Stock</h2>
 
             <form method="POST" action="/agregar-stock">

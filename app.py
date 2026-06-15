@@ -1,10 +1,17 @@
 import sqlite3
-from flask import Flask, request, jsonify, render_template, redirect, session
+import re
+import pandas as pd
+from io import BytesIO
+
+from flask import (
+    Flask, request, jsonify, render_template,
+    redirect, session, send_file
+)
+
 from werkzeug.security import (
     generate_password_hash,
     check_password_hash
 )
-import re
 
 app = Flask(__name__)
 
@@ -236,6 +243,42 @@ def pagina_inventario():
         categorias=categorias,
         no_resultados=no_resultados
     )
+
+@app.route("/exportar-excel")
+def exportar_excel():
+
+    if "usuario" not in session:
+        return redirect("/login")
+
+    conn = conectar_db()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM productos")
+    productos = cursor.fetchall()
+    conn.close()
+
+    data = [{
+        "id": p["id"],
+        "nombre": p["nombre"],
+        "categoria": p["categoria"],
+        "precio_unitario": p["precio_unitario"],
+        "cantidad": p["cantidad"],
+        "stock_minimo": p["stock_minimo"]
+    } for p in productos]
+
+    df = pd.DataFrame(data)
+
+    output = BytesIO()
+    df.to_excel(output, index=False)
+    output.seek(0)
+
+    return send_file(
+        output,
+        as_attachment=True,
+        download_name="inventario.xlsx",
+        mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+    
 # ==========================
 # AGREGAR PRODUCTO
 # ==========================
