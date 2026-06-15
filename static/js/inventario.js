@@ -91,3 +91,16 @@ function aplicarFiltros() {
 
     filas.forEach(fila => tabla.appendChild(fila));
 }
+
+document.querySelectorAll(".btn-editar").forEach(btn => {
+    btn.addEventListener("click", function () {
+
+        abrirModal(
+            this.dataset.id,
+            this.dataset.nombre,
+            this.dataset.categoria,
+            this.dataset.precio,
+            this.dataset.cantidad
+        );
+    });
+});

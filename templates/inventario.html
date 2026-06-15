@@ -37,10 +37,10 @@
                 <select id="categoria" onchange="aplicarFiltros()">
                     <option value="">Todas</option>
 
-                    {% for categoria in categorias %}
-                    <option value="{{ categoria['categoria'] }}">
-                        {{ categoria['categoria'] }}
-                    </option>
+                    {% for producto in productos %}
+                        <option value="{{ producto['categoria'] }}">
+                            {{ producto['categoria'] }}
+                        </option>
                     {% endfor %}
 
                 </select>
@@ -75,16 +75,15 @@
                     <td>
 
                         <button type="button"
-                                onclick="abrirModal(
-                                    '{{ producto['id'] }}',
-                                    '{{ producto['nombre'] }}',
-                                    '{{ producto['categoria'] }}',
-                                    '{{ producto['precio_unitario'] }}',
-                                    '{{ producto['cantidad'] }}'
-                                )">
+                            class="btn-editar"
+                            data-id="{{ producto['id'] }}"
+                            data-nombre="{{ producto['nombre'] }}"
+                            data-categoria="{{ producto['categoria'] }}"
+                            data-precio="{{ producto['precio_unitario'] }}"
+                            data-cantidad="{{ producto['cantidad'] }}">
                             Editar
                         </button>
-
+                        
                         <form action="/eliminar_producto/{{ producto['id'] }}"
                               method="POST"
                               style="display:inline;">
