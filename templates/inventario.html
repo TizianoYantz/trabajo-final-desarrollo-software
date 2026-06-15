@@ -37,9 +37,9 @@
                 <select id="categoria" onchange="aplicarFiltros()">
                     <option value="">Todas</option>
 
-                    {% for producto in productos %}
-                        <option value="{{ producto['categoria'] }}">
-                            {{ producto['categoria'] }}
+                    {% for categoria in categorias %}
+                        <option value="{{ categoria['categoria'] }}">
+                            {{ categoria['categoria'] }}
                         </option>
                     {% endfor %}
 
