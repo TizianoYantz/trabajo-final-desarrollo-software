@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="home">
+
+    <div class="login-container">
+
+        <h1>Gestión de Inventario</h1>
+
+        <h2>Iniciar Sesión</h2>
+
+        {% if error %}
+            <p style="color:red;">
+                {{ error }}
+            </p>
+        {% endif %}
+
+        <form method="POST">
+
+            <input
+                type="text"
+                name="usuario"
+                placeholder="Usuario"
+                required
+            >
+
+            <br><br>
+
+            <input
+                type="password"
+                name="password"
+                placeholder="Contraseña"
+                required
+            >
+
+            <br><br>
+
+            <button type="submit">
+                Ingresar
+            </button>
+
+        </form>
+
+        <br>
+
+        <p>
+            ¿No tenés cuenta?
+        </p>
+
+        <a href="/registro">
+            Crear cuenta
+        </a>
+
+    </div>
+
+</body>
+
+</html>

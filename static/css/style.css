@@ -361,3 +361,62 @@ form button:hover {
     border-radius: 12px;
     padding: 15px;
 }
+
+.logout-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    padding: 10px 15px;
+
+    background-color: #dc3545;
+    color: white;
+
+    text-decoration: none;
+    border-radius: 8px;
+
+    font-weight: bold;
+}
+
+.logout-btn:hover {
+    opacity: 0.9;
+}
+
+.usuario-info {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+
+    width: 120px;
+
+    text-align: center;
+
+    border: 2px solid #4da6ff;
+    border-radius: 12px;
+
+    padding: 8px;
+
+    background-color: #d9efff;
+
+    color: black;
+
+    font-size: 13px;
+
+    font-family: 'Dancing Script', cursive;
+}
+
+.usuario-icono {
+    font-size: 28px;
+    margin-bottom: 3px;
+}
+
+.usuario-texto {
+    margin-bottom: 6px;
+    font-size: 18px;
+}
+
+.btn-logout {
+    padding: 4px 8px;
+    font-size: 11px;
+    cursor: pointer;
+}

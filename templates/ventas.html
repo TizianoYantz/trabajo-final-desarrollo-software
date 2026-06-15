@@ -7,9 +7,35 @@
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap"
+        rel="stylesheet">          
 </head>
 
 <body class="inventario">
+    <div class="usuario-info">
+
+        <div class="usuario-icono">
+            👤
+        </div>
+
+        <div class="usuario-texto">
+            <strong>Bienvenido</strong>
+            <br>
+            {{ session["usuario"] }}
+        </div>
+
+        <br>
+
+        <a href="/logout">
+            <button class="btn-logout">
+                Cerrar sesión
+            </button>
+        </a>
+
+    </div>
 
     <h1 class="titulo">Ventas</h1>
 

@@ -1,4 +1,5 @@
 #Lista de librerias
 pip install flask
+pip install werkzeug
 python crear_db.py
 python app.py

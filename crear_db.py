@@ -17,6 +17,14 @@ CREATE TABLE IF NOT EXISTS productos (
 )
 """)
 
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS usuarios (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    usuario TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL
+)
+""")
+
 # =========================
 # MOVIMIENTOS
 # =========================

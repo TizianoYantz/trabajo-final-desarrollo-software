@@ -1,7 +1,14 @@
 import sqlite3
-from flask import Flask, request, jsonify, render_template, redirect
+from flask import Flask, request, jsonify, render_template, redirect, session
+from werkzeug.security import (
+    generate_password_hash,
+    check_password_hash
+)
+import re
 
 app = Flask(__name__)
+
+app.secret_key = "gestion_inventario_2026"
 
 # ==========================
 # CONEXIÓN DB
@@ -11,20 +18,159 @@ def conectar_db():
     conn.row_factory = sqlite3.Row
     return conn
 
+@app.route("/login", methods=["GET", "POST"])
+def login():
 
+    if request.method == "POST":
+
+        usuario = request.form["usuario"]
+        password = request.form["password"]
+
+        conn = conectar_db()
+        cursor = conn.cursor()
+
+        cursor.execute("""
+            SELECT * FROM usuarios
+            WHERE usuario = ?
+        """, (usuario,))
+
+        usuario_db = cursor.fetchone()
+
+        conn.close()
+
+        if usuario_db and check_password_hash(
+            usuario_db["password"],
+            password
+        ):
+            session["usuario"] = usuario
+            return redirect("/")
+
+        return render_template(
+            "login.html",
+            error="Usuario o contraseña incorrectos"
+        )
+
+    return render_template("login.html")
+
+@app.route("/registro", methods=["GET", "POST"])
+def registro():
+
+    if request.method == "POST":
+
+        usuario = request.form["usuario"]
+        password = request.form["password"]
+        confirmar = request.form["confirmar_password"]
+
+        # VALIDAR CONTRASEÑAS IGUALES
+        if password != confirmar:
+
+            return render_template(
+                "registro.html",
+                error="Las contraseñas no coinciden"
+            )
+
+        # VALIDAR SEGURIDAD
+        if len(password) < 8:
+
+            return render_template(
+                "registro.html",
+                error="La contraseña debe tener al menos 8 caracteres"
+            )
+
+        if not re.search(r"[A-Z]", password):
+
+            return render_template(
+                "registro.html",
+                error="Debe contener al menos una mayúscula"
+            )
+
+        if not re.search(r"[a-z]", password):
+
+            return render_template(
+                "registro.html",
+                error="Debe contener al menos una minúscula"
+            )
+
+        if not re.search(r"\d", password):
+
+            return render_template(
+                "registro.html",
+                error="Debe contener al menos un número"
+            )
+
+        if not re.search(
+            r"[!@#$%^&*()_+\-=\[\]{};':\"\\|,.<>/?]",
+            password
+        ):
+
+            return render_template(
+                "registro.html",
+                error="Debe contener al menos un carácter especial"
+            )
+
+        conn = conectar_db()
+        cursor = conn.cursor()
+
+        # VERIFICAR SI EL USUARIO YA EXISTE
+        cursor.execute("""
+            SELECT * FROM usuarios
+            WHERE usuario = ?
+        """, (usuario,))
+
+        existe = cursor.fetchone()
+
+        if existe:
+
+            conn.close()
+
+            return render_template(
+                "registro.html",
+                error="Ese usuario ya existe"
+            )
+
+        # GENERAR HASH
+        password_hash = generate_password_hash(password)
+
+        # GUARDAR USUARIO
+        cursor.execute("""
+            INSERT INTO usuarios(usuario, password)
+            VALUES (?, ?)
+        """, (usuario, password_hash))
+
+        conn.commit()
+        conn.close()
+
+        return redirect("/login")
+
+    return render_template("registro.html")
+
+@app.route("/logout")
+def logout():
+
+    session.clear()
+
+    return redirect("/login")
 # ==========================
 # PÁGINA PRINCIPAL
 # ==========================
+
 @app.route("/")
 def inicio():
-    return render_template("index.html")
 
+    if "usuario" not in session:
+        return redirect("/login")
+
+    return render_template("index.html")
 
 # ==========================
 # INVENTARIO
 # ==========================
 @app.route("/inventario")
 def pagina_inventario():
+
+    # LOGIN REQUERIDO
+    if "usuario" not in session:
+        return redirect("/login")
 
     nombre_busqueda = request.args.get("buscar")
 
@@ -38,7 +184,9 @@ def pagina_inventario():
             WHERE LOWER(nombre) LIKE ?
         """, ('%' + nombre_busqueda.lower() + '%',))
     else:
-        cursor.execute("SELECT * FROM productos")
+        cursor.execute("""
+            SELECT * FROM productos
+        """)
 
     productos = cursor.fetchall()
 
@@ -51,7 +199,7 @@ def pagina_inventario():
 
     # VALOR TOTAL
     cursor.execute("""
-        SELECT SUM(precio_unitario * cantidad) as total
+        SELECT SUM(precio_unitario * cantidad) AS total
         FROM productos
     """)
     valor_total = cursor.fetchone()["total"] or 0
@@ -64,7 +212,7 @@ def pagina_inventario():
     """)
     movimientos = cursor.fetchall()
 
-    # 🆕 CATEGORÍAS ÚNICAS (SIN DUPLICADOS)
+    # CATEGORÍAS ÚNICAS
     cursor.execute("""
         SELECT DISTINCT categoria
         FROM productos
@@ -87,6 +235,9 @@ def pagina_inventario():
 # ==========================
 @app.route("/agregar-producto", methods=["POST"])
 def agregar_producto_html():
+    
+    if "usuario" not in session:
+        return redirect("/login")    
 
     conn = conectar_db()
     cursor = conn.cursor()
@@ -137,21 +288,13 @@ def agregar_producto_html():
 
     return redirect("/inventario")
 
-    # 🔥 MOVIMIENTO CON CANTIDAD
-    cursor.execute("""
-        INSERT INTO movimientos (descripcion)
-        VALUES (?)
-    """, (f"Se agregó producto {nombre} (+{cantidad})",))
-
-    conn.commit()
-    conn.close()
-
-    return redirect("/inventario")
 # ==========================
 # EDITAR PRODUCTO
 # ==========================
 @app.route("/guardar-producto/<int:id_producto>", methods=["POST"])
 def guardar_producto(id_producto):
+    if "usuario" not in session:
+        return redirect("/login")
 
     conn = conectar_db()
     cursor = conn.cursor()
@@ -187,6 +330,8 @@ def guardar_producto(id_producto):
 # ==========================
 @app.route("/eliminar_producto/<int:id_producto>", methods=["POST"])
 def eliminar_producto_html(id_producto):
+    if "usuario" not in session:
+        return redirect("/login")
 
     conn = conectar_db()
     cursor = conn.cursor()
@@ -210,6 +355,8 @@ def eliminar_producto_html(id_producto):
 # ==========================
 @app.route("/productos", methods=["GET"])
 def obtener_productos():
+    if "usuario" not in session:
+        return redirect("/login")
 
     conn = conectar_db()
     cursor = conn.cursor()
@@ -234,6 +381,8 @@ def obtener_productos():
 # ==========================
 @app.route("/stock-bajo", methods=["GET"])
 def stock_bajo():
+    if "usuario" not in session:
+        return redirect("/login")
 
     conn = conectar_db()
     cursor = conn.cursor()
@@ -259,6 +408,8 @@ def stock_bajo():
 # ==========================
 @app.route("/agotados", methods=["GET"])
 def agotados():
+    if "usuario" not in session:
+        return redirect("/login")
 
     conn = conectar_db()
     cursor = conn.cursor()
@@ -282,6 +433,8 @@ def agotados():
 # ==========================
 @app.route("/ventas")
 def pagina_ventas():
+    if "usuario" not in session:
+        return redirect("/login")
 
     conn = conectar_db()
     cursor = conn.cursor()
@@ -301,6 +454,8 @@ def pagina_ventas():
 
 @app.route("/ventas/registrar", methods=["POST"])
 def registrar_venta():
+    if "usuario" not in session:
+        return redirect("/login")
 
     conn = conectar_db()
     cursor = conn.cursor()
