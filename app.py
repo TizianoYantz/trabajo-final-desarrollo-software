@@ -92,22 +92,50 @@ def agregar_producto_html():
     cursor = conn.cursor()
 
     nombre = request.form.get("nombre")
-    cantidad = int(request.form.get("cantidad"))
-
     categoria = request.form.get("categoria")
     precio_unitario = float(request.form.get("precio_unitario"))
+    cantidad = int(request.form.get("cantidad"))
     stock_minimo = int(request.form.get("stock_minimo"))
 
+    # 🔍 BUSCAR SI YA EXISTE
     cursor.execute("""
-        INSERT INTO productos (nombre, categoria, precio_unitario, cantidad, stock_minimo)
-        VALUES (?, ?, ?, ?, ?)
-    """, (
-        nombre,
-        categoria,
-        precio_unitario,
-        cantidad,
-        stock_minimo
-    ))
+        SELECT * FROM productos
+        WHERE nombre = ?
+        AND categoria = ?
+        AND precio_unitario = ?
+    """, (nombre, categoria, precio_unitario))
+
+    producto_existente = cursor.fetchone()
+
+    if producto_existente:
+        # 🔼 SI EXISTE → SUMAR STOCK
+        cursor.execute("""
+            UPDATE productos
+            SET cantidad = cantidad + ?
+            WHERE id = ?
+        """, (cantidad, producto_existente["id"]))
+
+        cursor.execute("""
+            INSERT INTO movimientos (descripcion)
+            VALUES (?)
+        """, (f"Se sumó stock a {nombre} (+{cantidad})",))
+
+    else:
+        # ➕ SI NO EXISTE → CREAR NUEVO
+        cursor.execute("""
+            INSERT INTO productos (nombre, categoria, precio_unitario, cantidad, stock_minimo)
+            VALUES (?, ?, ?, ?, ?)
+        """, (nombre, categoria, precio_unitario, cantidad, stock_minimo))
+
+        cursor.execute("""
+            INSERT INTO movimientos (descripcion)
+            VALUES (?)
+        """, (f"Se creó producto {nombre} (+{cantidad})",))
+
+    conn.commit()
+    conn.close()
+
+    return redirect("/inventario")
 
     # 🔥 MOVIMIENTO CON CANTIDAD
     cursor.execute("""
