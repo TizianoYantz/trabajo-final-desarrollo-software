@@ -13,14 +13,8 @@
 
     <h1 class="titulo">Inventario</h1>
 
-    <!-- 🏠 BOTÓN HOME -->
-    <a href="/" class="home-link">
-        🏠
-    </a>
+    <a href="/" class="home-link">🏠</a>
 
-    <!-- =========================
-         CONTENEDOR PRINCIPAL
-    ========================== -->
     <div class="contenedor-principal">
 
         <!-- TABLA PRODUCTOS -->
@@ -43,11 +37,12 @@
                 <select id="categoria" onchange="aplicarFiltros()">
                     <option value="">Todas</option>
 
-                    {% for producto in productos %}
-                    <option value="{{ producto.obtener_categoria() }}">
-                        {{ producto.obtener_categoria() }}
+                    {% for categoria in categorias %}
+                    <option value="{{ categoria['categoria'] }}">
+                        {{ categoria['categoria'] }}
                     </option>
                     {% endfor %}
+
                 </select>
 
             </div>
@@ -69,30 +64,28 @@
 
                 {% for producto in productos %}
                 <tr>
-                    <td>{{ producto.obtener_id() }}</td>
-                    <td>{{ producto.obtener_nombre() }}</td>
-                    <td>{{ producto.obtener_categoria() }}</td>
-                    <td>${{ producto.obtener_precio_unitario() }}</td>
-                    <td>${{ producto.obtener_valor_total() }}</td>
-                    <td>{{ producto.obtener_cantidad() }}</td>
-                    <td>{{ producto.obtener_stock_minimo() }}</td>
+                    <td>{{ producto["id"] }}</td>
+                    <td>{{ producto["nombre"] }}</td>
+                    <td>{{ producto["categoria"] }}</td>
+                    <td>${{ producto["precio_unitario"] }}</td>
+                    <td>${{ producto["precio_unitario"] * producto["cantidad"] }}</td>
+                    <td>{{ producto["cantidad"] }}</td>
+                    <td>{{ producto["stock_minimo"] }}</td>
 
                     <td>
 
-                        <!-- EDITAR -->
                         <button type="button"
                                 onclick="abrirModal(
-                                    '{{ producto.obtener_id() }}',
-                                    '{{ producto.obtener_nombre() }}',
-                                    '{{ producto.obtener_categoria() }}',
-                                    '{{ producto.obtener_precio_unitario() }}',
-                                    '{{ producto.obtener_cantidad() }}'
+                                    '{{ producto['id'] }}',
+                                    '{{ producto['nombre'] }}',
+                                    '{{ producto['categoria'] }}',
+                                    '{{ producto['precio_unitario'] }}',
+                                    '{{ producto['cantidad'] }}'
                                 )">
                             Editar
                         </button>
 
-                        <!-- ELIMINAR -->
-                        <form action="/eliminar_producto/{{ producto.obtener_id() }}"
+                        <form action="/eliminar_producto/{{ producto['id'] }}"
                               method="POST"
                               style="display:inline;">
 
@@ -130,9 +123,7 @@
                        name="buscar"
                        placeholder="Nombre del producto">
 
-                <button type="submit">
-                    Buscar
-                </button>
+                <button type="submit">Buscar</button>
 
             </form>
 
@@ -157,9 +148,7 @@
                 <input type="number" name="stock_minimo" placeholder="Stock mínimo" value="5" required>
                 <br><br>
 
-                <button type="submit">
-                    Agregar Producto
-                </button>
+                <button type="submit">Agregar Producto</button>
 
             </form>
 
@@ -167,12 +156,9 @@
 
     </div>
 
-    <!-- =========================
-         FOOTER INVENTARIO
-    ========================== -->
+    <!-- FOOTER -->
     <div class="footer-inventario">
 
-        <!-- STOCK BAJO -->
         <div class="stock-bajo">
 
             <h2>⚠ Productos con poco stock</h2>
@@ -191,9 +177,9 @@
 
                     {% for producto in productos_poco_stock %}
                     <tr>
-                        <td>{{ producto.obtener_nombre() }}</td>
-                        <td>{{ producto.obtener_cantidad() }}</td>
-                        <td>{{ producto.obtener_stock_minimo() }}</td>
+                        <td>{{ producto["nombre"] }}</td>
+                        <td>{{ producto["cantidad"] }}</td>
+                        <td>{{ producto["stock_minimo"] }}</td>
                     </tr>
                     {% endfor %}
 
@@ -203,7 +189,6 @@
 
         </div>
 
-        <!-- HISTORIAL -->
         <div class="historial">
 
             <h2>📜 Historial de movimientos</h2>
@@ -221,12 +206,8 @@
 
                     {% for movimiento in movimientos %}
                     <tr>
-                        <td>
-                            {{ movimiento.obtener_fecha().strftime("%d/%m/%Y %H:%M:%S") }}
-                        </td>
-                        <td>
-                            {{ movimiento.obtener_descripcion() }}
-                        </td>
+                        <td>{{ movimiento["fecha"] }}</td>
+                        <td>{{ movimiento["descripcion"] }}</td>
                     </tr>
                     {% endfor %}
 
@@ -238,7 +219,7 @@
 
     </div>
 
-    <!-- MODAL EDITAR -->
+    <!-- MODAL -->
     <div id="modalEditar" class="modal">
 
         <div class="modal-contenido">
@@ -247,32 +228,12 @@
 
             <form id="formEditar" method="POST">
 
-                <label>Nombre</label>
-                <br>
                 <input type="text" id="nombreEditar" name="nombre" required>
-
-                <br><br>
-
-                <label>Categoría</label>
-                <br>
                 <input type="text" id="categoriaEditar" name="categoria" required>
-
-                <br><br>
-
-                <label>Precio Unitario</label>
-                <br>
                 <input type="number" step="0.01" id="precioEditar" name="precio_unitario" required>
-
-                <br><br>
-
-                <label>Cantidad</label>
-                <br>
                 <input type="number" id="cantidadEditar" name="cantidad" required>
 
-                <br><br>
-
                 <button type="submit">Guardar</button>
-
                 <button type="button" onclick="cerrarModal()">Cancelar</button>
 
             </form>
@@ -284,5 +245,4 @@
     <script src="{{ url_for('static', filename='js/inventario.js') }}"></script>
 
 </body>
-
 </html>

@@ -13,21 +13,23 @@
 
     <h1 class="titulo">Ventas</h1>
 
-    <!-- 🏠 BOTÓN HOME (IGUAL A INVENTARIO) -->
-    <a href="/" class="home-link">
-        🏠
-    </a>
+    <a href="/" class="home-link">🏠</a>
 
     <div class="contenedor-inventario">
 
-        <!-- HISTORIAL -->
+        <!-- HISTORIAL DE VENTAS -->
         <div class="tabla-productos">
 
             <h2>Historial de Ventas</h2>
 
+            {% if ventas|length == 0 %}
+                <p>No hay ventas registradas.</p>
+            {% else %}
+
             <table border="1">
 
                 <tr>
+                    <th>ID</th>
                     <th>Producto</th>
                     <th>Cantidad</th>
                     <th>Fecha</th>
@@ -35,13 +37,16 @@
 
                 {% for venta in ventas %}
                 <tr>
-                    <td>{{ venta.obtener_producto().obtener_nombre() }}</td>
-                    <td>{{ venta.obtener_cantidad() }}</td>
-                    <td>{{ venta.obtener_fecha().strftime("%d/%m/%Y %H:%M") }}</td>
+                    <td>{{ venta["id"] }}</td>
+                    <td>{{ venta["nombre"] }}</td>
+                    <td>{{ venta["cantidad"] }}</td>
+                    <td>{{ venta["fecha"] }}</td>
                 </tr>
                 {% endfor %}
 
             </table>
+
+            {% endif %}
 
         </div>
 
@@ -56,18 +61,16 @@
             </p>
             {% endif %}
 
-            <form method="POST" action="/registrar-venta">
+            <form method="POST" action="/ventas/registrar">
 
                 <label>ID Producto</label>
                 <br>
-
                 <input type="number" name="id_producto" required>
 
                 <br><br>
 
                 <label>Cantidad</label>
                 <br>
-
                 <input type="number" name="cantidad" required>
 
                 <br><br>
@@ -83,5 +86,4 @@
     </div>
 
 </body>
-
 </html>
