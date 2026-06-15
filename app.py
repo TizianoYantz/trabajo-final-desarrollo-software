@@ -288,6 +288,41 @@ def agregar_producto_html():
 
     return redirect("/inventario")
 
+@app.route("/agregar-stock", methods=["POST"])
+def agregar_stock():
+
+    if "usuario" not in session:
+        return redirect("/login")
+
+    conn = conectar_db()
+    cursor = conn.cursor()
+
+    producto_id = int(request.form["producto_id"])
+    cantidad = int(request.form["cantidad"])
+
+    cursor.execute("""
+        UPDATE productos
+        SET cantidad = cantidad + ?
+        WHERE id = ?
+    """, (cantidad, producto_id))
+
+    cursor.execute("""
+        SELECT nombre
+        FROM productos
+        WHERE id = ?
+    """, (producto_id,))
+
+    producto = cursor.fetchone()
+
+    cursor.execute("""
+        INSERT INTO movimientos (descripcion)
+        VALUES (?)
+    """, (f"Se repuso stock de {producto['nombre']} (+{cantidad})",))
+
+    conn.commit()
+    conn.close()
+
+    return redirect("/inventario")
 # ==========================
 # EDITAR PRODUCTO
 # ==========================
