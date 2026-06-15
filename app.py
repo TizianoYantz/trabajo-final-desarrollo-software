@@ -177,18 +177,23 @@ def pagina_inventario():
     conn = conectar_db()
     cursor = conn.cursor()
 
+    no_resultados = False
+
     # PRODUCTOS
     if nombre_busqueda:
         cursor.execute("""
             SELECT * FROM productos
             WHERE LOWER(nombre) LIKE ?
         """, ('%' + nombre_busqueda.lower() + '%',))
-    else:
-        cursor.execute("""
-            SELECT * FROM productos
-        """)
 
-    productos = cursor.fetchall()
+        productos = cursor.fetchall()
+
+        if len(productos) == 0:
+            no_resultados = True
+
+    else:
+        cursor.execute("SELECT * FROM productos")
+        productos = cursor.fetchall()
 
     # STOCK BAJO
     cursor.execute("""
@@ -228,7 +233,8 @@ def pagina_inventario():
         productos_poco_stock=productos_poco_stock,
         valor_total=valor_total,
         movimientos=movimientos,
-        categorias=categorias
+        categorias=categorias,
+        no_resultados=no_resultados
     )
 # ==========================
 # AGREGAR PRODUCTO

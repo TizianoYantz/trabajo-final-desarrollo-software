@@ -70,9 +70,23 @@
 
                 </select>
 
+                <!-- 🟢 BOTÓN MOSTRAR TODOS -->
+                <a href="/inventario">
+                    <button type="button">
+                        Mostrar todos
+                    </button>
+                </a>
+
             </div>
 
             <br>
+
+            <!-- 🔴 MENSAJE SI NO HAY RESULTADOS -->
+            {% if no_resultados %}
+                <p style="color:red; font-weight:bold;">
+                    ❌ No existe ese producto
+                </p>
+            {% endif %}
 
             <table border="1" id="tablaProductos">
 
