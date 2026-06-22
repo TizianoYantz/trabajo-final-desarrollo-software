@@ -439,3 +439,35 @@ form button:hover {
     background: #ffffff;
     transform: scale(1.1);
 }
+
+.btn-exportar-tabla{
+    display: inline-block;
+
+    width: 120px;
+    height: 40px;
+    line-height: 40px;
+
+    text-align: center;
+    text-decoration: none;
+
+    background-color: #0d3b66; /* azul oscuro */
+    border: 2px solid black;
+    border-radius: 6px;
+
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+
+    text-shadow:
+        -1px -1px 0 #000,
+         1px -1px 0 #000,
+        -1px  1px 0 #000,
+         1px  1px 0 #000;
+
+    transition: 0.3s;
+}
+
+.btn-exportar-tabla:hover{
+    background-color: #082846;
+    transform: scale(1.05);
+}
